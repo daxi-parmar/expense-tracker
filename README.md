@@ -1,6 +1,18 @@
 # expense-tracker
-A simple project to track the everyday expenses built using python
-A simple expense tracker built with Python to record and manage daily expenses.
-This project is part of my learning journey in Python, Git, and GitHub.
-More features and improvements will be added as I continue developing the project
-making changes 
+A simple web app to log daily expenses
+
+## Features
+
+- Add expenses
+- Track date
+- Track price
+- Track item
+
+## Tech Stack
+
+- Python
+- Flask
+- MongoDB
+- HTML
+- CSS
+
