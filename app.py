@@ -23,5 +23,9 @@ def test_db():
     except Exception as e:
         return f" Connection Failed: {e}"
 
+    @app.route("/add", methods=["POST"])
+    def add_expense():
+    pass
+
 if __name__ == "__main__":
     app.run(debug=True)
