@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from db import client, expenses_collection
-
+from datetime import datetime
 app = Flask(__name__)
 
 @app.route("/")
@@ -22,16 +22,20 @@ def test_db():
     except Exception as e:
         return f" Connection Failed: {e}"
 
+    expenses_collection.insert_one(expense)
+    #return redirect(url_for("home"))
+
 @app.route("/add", methods=["POST"])
 def add_expense():
     date = request.form["date"]
     price = float(request.form["price"])   
     item = request.form["item"]   
-
     expense = {
         "date": date,
         "price": price,
-        "item": item
+        "item": item,
+        "created_at": datetime.now()
+
     }
     expenses_collection.insert_one(expense)
     return redirect(url_for("home"))
