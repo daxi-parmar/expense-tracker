@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    expenses = expenses_collection.find()
+    return render_template("index.html", expenses=expenses)
 
 @app.route("/test-db")
 def test_db():
