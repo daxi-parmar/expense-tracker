@@ -10,20 +10,13 @@ def home():
 @app.route("/test-db")
 def test_db():
     try:
-        # Ping MongoDB server
         client.admin.command("ping")
-
-        # Optional: Insert a test document
-        expenses_collection.insert_one({
-            "message": "MongoDB Connected Successfully!"
-        })
-        return " MongoDB Connected Successfully!"
+        return "MongoDB Connected Successfully!"
 
     except Exception as e:
-        return f" Connection Failed: {e}"
+        import traceback
+        return f"<pre>{traceback.format_exc()}</pre>"
 
-    expenses_collection.insert_one(expense)
-    #return redirect(url_for("home"))
 
 @app.route("/add", methods=["POST"])
 def add_expense():
@@ -34,8 +27,6 @@ def add_expense():
         "date": date,
         "price": price,
         "item": item,
-        "created_at": datetime.now()
-
     }
     expenses_collection.insert_one(expense)
     return redirect(url_for("home"))
