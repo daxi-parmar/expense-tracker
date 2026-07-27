@@ -12,11 +12,11 @@
             
             <label for="price">Price:</label>
             <input type ="number" id ="price" name ="price" step="0.01" min="0" required>
-             <br><br>
+            <br><br>
 
             <label for="item">Item:</label>
             <input type ="text" id ="item" name ="item">
-             <br><br>
+            <br><br>
 
             <button type="submit"> add expense</button>
         </form>
@@ -31,6 +31,7 @@
             <th>Date</th>
             <th>Item</th>
             <th>Price</th>
+            <th>Action</th>
         </tr>
 
         {% for expense in expenses %}
@@ -39,6 +40,11 @@
             <td>{{ expense.date }}</td>
             <td>{{ expense.item }}</td>
             <td>₹{{ "%.2f"|format(expense.price) }}</td>
+            <td>
+                <a href="/edit/{{ expense._id }}">
+                <button>edit</button>
+                </a>
+            </td>
         </tr>
 
         {% endfor %}

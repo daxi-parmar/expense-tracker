@@ -32,5 +32,10 @@ def add_expense():
     expenses_collection.insert_one(expense)
     return redirect(url_for("home"))
 
+
+@app.route("/edit/<expense_id>")
+def edit_expense(expense_id):
+    return f"Editing expense: {expense_id}"
+
 if __name__ == "__main__":
     app.run(debug=True)
