@@ -6,7 +6,7 @@ load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
 
-print("URI loaded:", MONGO_URI)
+#print("URI loaded:", MONGO_URI)
 
 client = MongoClient(
     os.getenv("MONGO_URI"),
