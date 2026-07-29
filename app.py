@@ -31,12 +31,30 @@ def add_expense():
     expenses_collection.insert_one(expense)
     return redirect(url_for("home"))
 
-@app.route("/edit/<expense_id>")
+@app.route("/edit/<expense_id>", methods =["GET", "POST"])
 def edit_expense(expense_id):
+    if request.method == "POST":
+        date = request.form["date"]
+        price = float(request.form["price"])
+        item = request.form["item"]
+
+        expenses_collection.update_one(
+            {"_id": ObjectId(expense_id)},
+            {
+                "$set": {
+                    "date": date,
+                    "price": price,
+                    "item": item
+                }
+            }
+        )
+
+        return redirect(url_for("home"))
     expense = expenses_collection.find_one(
         {"_id": ObjectId(expense_id)}
     )
-    return str(expense)
+
+    return render_template("edit.html", expense=expense)
 
 
 if __name__ == "__main__":
