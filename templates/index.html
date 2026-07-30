@@ -31,7 +31,7 @@
             <th>Date</th>
             <th>Item</th>
             <th>Price</th>
-            <th>Action</th>
+            <th>Actions</th>
         </tr>
 
         {% for expense in expenses %}
@@ -43,6 +43,9 @@
             <td>
                 <a href="/edit/{{ expense._id }}">
                 <button>edit</button>
+                </a>
+                <a href="/delete/{{ expense._id }}">
+                <button>Delete</button>
                 </a>
             </td>
         </tr>

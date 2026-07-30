@@ -53,8 +53,11 @@ def edit_expense(expense_id):
     expense = expenses_collection.find_one(
         {"_id": ObjectId(expense_id)}
     )
-
     return render_template("edit.html", expense=expense)
+
+@app.route("/delete/<expense_id>")
+def delete_expense(expense_id):
+    return f"Delete expense {expense_id}"
 
 
 if __name__ == "__main__":
