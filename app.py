@@ -23,11 +23,18 @@ def add_expense():
     date = request.form["date"]
     price = float(request.form["price"])   
     item = request.form["item"]   
+    if item == "":
+        return "Item name cannot be empty"
+    if date == "":
+        return "Date is required"
+    if price <= 0:
+        return "Price must be greater than 0"
     expense = {
         "date": date,
         "price": price,
         "item": item,
     }
+
     expenses_collection.insert_one(expense)
     return redirect(url_for("home"))
 
@@ -60,7 +67,6 @@ def delete_expense(expense_id):
     expenses_collection.delete_one(
         {"_id": ObjectId(expense_id)}
     )
-
     return redirect(url_for("home"))
 
 if __name__ == "__main__":
