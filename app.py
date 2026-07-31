@@ -48,7 +48,6 @@ def edit_expense(expense_id):
                 }
             }
         )
-
         return redirect(url_for("home"))
     expense = expenses_collection.find_one(
         {"_id": ObjectId(expense_id)}
@@ -57,8 +56,12 @@ def edit_expense(expense_id):
 
 @app.route("/delete/<expense_id>")
 def delete_expense(expense_id):
-    return f"Delete expense {expense_id}"
 
+    expenses_collection.delete_one(
+        {"_id": ObjectId(expense_id)}
+    )
+
+    return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.run(debug=True)
