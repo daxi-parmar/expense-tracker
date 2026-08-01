@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from db import client, expenses_collection
 from datetime import datetime
 from bson.objectid import ObjectId
 app = Flask(__name__)
+app.secret_key = "mysecretkey"
 
 @app.route("/")
 def home():
@@ -24,11 +25,17 @@ def add_expense():
     price = float(request.form["price"])   
     item = request.form["item"]   
     if item == "":
-        return "Item name cannot be empty"
+        flash("Item cannot be empty")
+        return redirect(url_for("home"))
+
     if date == "":
-        return "Date is required"
+        flash("Date is required")
+        return redirect(url_for("home"))
+       
     if price <= 0:
-        return "Price must be greater than 0"
+        flash("Price must be greater than 0")
+        return redirect(url_for("home"))
+    
     expense = {
         "date": date,
         "price": price,
