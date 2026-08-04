@@ -8,7 +8,12 @@ app.secret_key = "mysecretkey"
 @app.route("/")
 def home():
     expenses = list(expenses_collection.find())
-    return render_template("index.html", expenses=expenses)
+    total = 0
+    for expense in expenses:
+        total += expense["price"]
+    return render_template("index.html", 
+                           expenses=expenses,
+                           total =total)
 
 @app.route("/test-db")
 def test_db():
@@ -27,11 +32,10 @@ def add_expense():
     if item == "":
         flash("Item cannot be empty")
         return redirect(url_for("home"))
-
     if date == "":
         flash("Date is required")
         return redirect(url_for("home"))
-       
+        return "Date is required"
     if price <= 0:
         flash("Price must be greater than 0")
         return redirect(url_for("home"))
