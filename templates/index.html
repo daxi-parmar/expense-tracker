@@ -20,53 +20,60 @@
             {% endif %}
         {% endwith %}
         <form action="/add" method ="POST">
-            <label for="date" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="date" class="block text-sm font-medium text-yellow-700 mb-2">
             Date
             </label> 
-            <input type = "date" id ="date" name = "date">
+            <input type = "date" id ="date" name = "date"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <br><br>            
             
-            <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="price" class="block text-sm font-medium text-yellow-700 mb-2">
             Price
             </label>
-            <input type ="number" id ="price" name ="price" step="0.01" min="0" required>
+            <input type ="number" id ="price" name ="price" step="0.01" min="0" required
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <br><br>
 
-            <label for="item" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="item" class="block text-sm font-medium text-yellow-700 mb-2">
             Item
             </label>
-            <input type ="text" id ="item" name ="item">
+            <input type ="text" id ="item" name ="item"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
             <br><br>
 
-            <button type="submit"> add expense</button>
+            <button type="submit" class="w-full bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition">
+                add expense
+            </button>
         </form>
-        <hr>
-        <h2>All Expenses</h2>
+        <hr class="my-6 border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+            All Expenses
+        </h2>
 
         {% if expenses %}
 
-        <table border="1" cellpadding="10">
+        <table class="w-full border-collapse">
 
-        <tr>
-            <th>Date</th>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Actions</th>
+        <tr class="bg-gray-50 border-b border-gray-200">
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Date</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Item</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Price</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Actions</th>
         </tr>
 
         {% for expense in expenses %}
 
-        <tr>
-            <td>{{ expense.date }}</td>
-            <td>{{ expense.item }}</td>
-            <td>₹{{ "%.2f"|format(expense.price) }}</td>
-            <td>
+        <tr class="border-b border-gray-100 hover:bg-gray-50"> 
+            <td class="px-4 py-3 text-sm text-gray-700">{{ expense.date }}</td>
+            <td class="px-4 py-3 text-sm text-gray-700">{{ expense.item }}</td>
+            <td class="px-4 py-3 text-sm text-gray-900 font-medium">₹{{ "%.2f"|format(expense.price) }}</td>
+            <td class="px-4 py-3">
                 <a href="/edit/{{ expense._id }}">
-                <button>edit</button>
+                <button class="bg-gray-200 text-gray-700 text-sm px-3 py-1 rounded hover:bg-gray-300 transition">edit</button>
                 </a>
                 
                 <a href="/delete/{{ expense._id }}">
-                <button>Delete</button>
+                <button class="bg-red-100 text-red-600 text-sm px-3 py-1 rounded hover:bg-red-200 transition ml-1">Delete</button>
                 </a>
             </td>
         </tr>
@@ -77,7 +84,7 @@
 
         {% else %}
 
-        <p>No expenses added yet.</p>
+        <p class="text-gray-400 text-center py-8">No expenses added yet.</p>
 
         {% endif %}
      
