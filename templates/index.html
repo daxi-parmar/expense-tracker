@@ -18,12 +18,34 @@
             </p>
         </div>
     
-        <div class ="dashboard">
-            <div>
-                <h3>Total Expense</h3>
-                <p>₹{{ total }}</p>
+        <div class ="dashboard grid grid-cols-3 gap-4 mb-8">
+            <div class="bg-blue-50 rounded-xl p-5 shadow-md">
+                <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                   💸 Total Expense
+                </h3>
+                <p class="text-3xl font-bold text-blue-600 mt-2">
+                    ₹{{ total }}
+                </p>
             </div>
 
+            <div class="bg-green-50 rounded-xl shadow p-5">
+                <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                    📅 This Month
+                </h3>
+                     <p class="text-3xl font-bold text-blue-600 mt-2">
+                        ₹{{monthly_total}}
+                    </p>
+            </div>
+
+            <div class="bg-purple-50 rounded-xl shadow p-5">
+                <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                    📝 Entries
+                </h3>
+                <p class="text-3xl font-bold text-blue-600 mt-2">
+                    {{ total_entries }}
+                </p>
+            </div>
+            
         </div>
 
         <div class ="flash messeges">
@@ -60,7 +82,7 @@
             <br><br>
 
             <button type="submit" class="w-full bg-blue-600 text-white font-medium py-2 rounded-lg hover:bg-blue-700 transition">
-                add expense
+            add expense
             </button>
         </form>
         </div>

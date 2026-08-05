@@ -9,11 +9,29 @@ app.secret_key = "mysecretkey"
 def home():
     expenses = list(expenses_collection.find())
     total = 0
+    monthly_total = 0
+    today =datetime.now()
+    current_month =today.month
+    current_year = today.year
     for expense in expenses:
         total += expense["price"]
+
+    
+        expense_date = datetime.strptime(expense["date"], "%Y-%m-%d")
+
+        expense_month = expense_date.month
+        expense_year = expense_date.year
+
+
+        if expense_month == current_month and expense_year ==current_year:   
+                monthly_total +=expense["price"]
+        
+    total_entries = len(expenses) 
     return render_template("index.html", 
                            expenses=expenses,
-                           total =total)
+                           total =total,
+                           total_entries=total_entries,
+                           monthly_total=monthly_total)
 
 @app.route("/test-db")
 def test_db():
