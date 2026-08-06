@@ -7,8 +7,8 @@ app.secret_key = "mysecretkey"
 
 @app.route("/")
 def home():
-    expenses = []
-    #list(expenses_collection.find())
+    expenses = list(expenses_collection.find())
+    # []
     total = 0
     monthly_total = 0
     today =datetime.now()
