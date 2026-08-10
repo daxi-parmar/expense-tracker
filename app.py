@@ -91,13 +91,14 @@ def edit_expense(expense_id):
     )
     return render_template("edit.html", expense=expense)
 
-@app.route("/delete/<expense_id>")
+@app.route("/delete/<expense_id>", methods=["DELETE"])
 def delete_expense(expense_id):
 
     expenses_collection.delete_one(
         {"_id": ObjectId(expense_id)}
     )
-    return redirect(url_for("home"))
+    return ""
+
 
 if __name__ == "__main__":
     app.run(debug=True)
