@@ -64,32 +64,39 @@ def add_expense():
         "price": price,
         "item": item,
     }
-
     expenses_collection.insert_one(expense)
     return redirect(url_for("home"))
 
 @app.route("/edit/<expense_id>", methods =["GET", "POST"])
 def edit_expense(expense_id):
-    if request.method == "POST":
-        date = request.form["date"]
-        price = float(request.form["price"])
-        item = request.form["item"]
-
-        expenses_collection.update_one(
-            {"_id": ObjectId(expense_id)},
-            {
-                "$set": {
-                    "date": date,
-                    "price": price,
-                    "item": item
-                }
-            }
+    if request.method == "GET":
+        expense = expenses_collection.find_one(
+            {"_id": ObjectId(expense_id)}
         )
-        return redirect(url_for("home"))
-    expense = expenses_collection.find_one(
-        {"_id": ObjectId(expense_id)}
+        return render_template(
+            "edit_row.html",
+            expense=expense
+        )
+
+    # POST - Save the edited expense
+
+    date = request.form["date"]
+    price = float(request.form["price"])
+    item = request.form["item"]
+
+    expenses_collection.update_one(
+        {"_id": ObjectId(expense_id)},
+        {
+            "$set": {
+                "date": date,
+                "price": price,
+                "item": item
+            }
+        }
     )
-    return render_template("edit.html", expense=expense)
+
+    return redirect(url_for("home"))
+
 
 @app.route("/delete/<expense_id>", methods=["DELETE"])
 def delete_expense(expense_id):
