@@ -10,7 +10,7 @@
         <title> Expense Tracker | Personal Finance Manager </title>
     </head>
     <body class="bg-gray-100">
-        <div class= "max-w-6xl mx-auto px-6 py-10">
+        <div class= "max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         
         <div class="header">
             <h1 class="text-4xl font-bold text-blue-600 text-center mb-2">
@@ -21,7 +21,7 @@
             </p>
         </div>
     
-        <div class ="dashboard grid grid-cols-3 gap-4 mb-8">
+        <div class ="dashboard grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="bg-blue-100 rounded-2xl shadow-md p-6
                         transition-all duration-300
                         hover:shadow-xl hover:-translate-y-1">
@@ -121,7 +121,7 @@
         </h2>
 
         {% if expenses %}
-
+        <div class="overflow-x-auto">
         <table class="w-full border-collapse">
 
         <tr  class="hover:bg-gray-50 transition duration-200">
@@ -130,6 +130,7 @@
             <th class="px-4 py-2 text-left text-sm font-semibold text-yellow-700">Price</th>
             <th class="px-4 py-2 text-left text-sm font-semibold text-yellow-700">Actions</th>
         </tr>
+        
 
         {% for expense in expenses %}
 
@@ -164,11 +165,9 @@
             
             </td>
         </tr>
-
         {% endfor %}
-
         </table>
-
+        </div>
         {% else %}
         <div class="text-center py-12">
 
@@ -184,9 +183,8 @@
                 Start by adding your first expense above.
             </p>
         </div>
-        {% endif %}
         </div>
-     
+        {% endif %}
         </div>
     </body>
 </html>
