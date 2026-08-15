@@ -3,9 +3,10 @@
     <td colspan="4" class="px-4 py-3">
 
         <form
-            action="/edit/{{ expense._id }}"
-            method="POST"
-            class="grid grid-cols-4 gap-3 items-center">
+           hx-post="/edit/{{ expense._id }}"
+           hx-target="closest tr"
+           hx-swap="outerHTML"
+           class="grid grid-cols-4 gap-3 items-center">
 
             <input
                 type="date"

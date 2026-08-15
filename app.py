@@ -58,14 +58,15 @@ def add_expense():
     if price <= 0:
         flash("Price must be greater than 0")
         return redirect(url_for("home"))
-    
     expense = {
         "date": date,
         "price": price,
         "item": item,
     }
-    expenses_collection.insert_one(expense)
-    return redirect(url_for("home"))
+    result = expenses_collection.insert_one(expense)
+    expense["_id"] = result.inserted_id
+
+    return render_template("expense_row.html", expense=expense)
 
 @app.route("/edit/<expense_id>", methods =["GET", "POST"])
 def edit_expense(expense_id):
@@ -94,18 +95,15 @@ def edit_expense(expense_id):
             }
         }
     )
-
     return redirect(url_for("home"))
 
 
 @app.route("/delete/<expense_id>", methods=["DELETE"])
 def delete_expense(expense_id):
-
     expenses_collection.delete_one(
         {"_id": ObjectId(expense_id)}
     )
     return ""
-
 
 if __name__ == "__main__":
     app.run(debug=True)
