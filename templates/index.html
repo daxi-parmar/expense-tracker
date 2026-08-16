@@ -105,12 +105,17 @@
             focus:border-blue-500">            
             <br><br>
 
-            <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-3 
+            <button type="submit" 
+            class="w-full bg-blue-600 text-white rounded-lg py-3 
             font-semibold
-             transition-all duration-300 
-             hover:bg-blue-700 hover:scale-[1.02]
-             active:scale-95">
-            + Add Expense
+            transition-all duration-300 
+            hover:bg-blue-700 hover:scale-[1.02]
+            active:scale-95
+            disabled:opacity-50
+            disabled:cursor-not-allowed"
+            hx-disabled-elt="this" > 
+            <span class="button-text">+ Add Expense</span>
+            <span class="loading-text hidden">Adding...</span>
             </button>
         </form>
         </div>
@@ -190,5 +195,23 @@
         </div>
         {% endif %}
         </div>
+
+        <script>
+        document.body.addEventListener("htmx:beforeRequest", function(event) {
+        if (event.target.matches("form[hx-post='/add']")) {
+            const button = event.target.querySelector("button");
+            button.querySelector(".button-text").classList.add("hidden");
+            button.querySelector(".loading-text").classList.remove("hidden");
+        }
+        });
+
+        document.body.addEventListener("htmx:afterRequest", function(event) {
+        if (event.target.matches("form[hx-post='/add']")) {
+            const button = event.target.querySelector("button");
+            button.querySelector(".button-text").classList.remove("hidden");
+            button.querySelector(".loading-text").classList.add("hidden");
+        }
+        });
+        </script> 
     </body>
 </html>
