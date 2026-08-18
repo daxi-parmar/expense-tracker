@@ -48,6 +48,7 @@ def add_expense():
     date = request.form["date"]
     price = float(request.form["price"])   
     item = request.form["item"]   
+    category = request.form["category"]
     if item == "":
         flash("Item cannot be empty")
         return redirect(url_for("home"))
@@ -62,6 +63,7 @@ def add_expense():
         "date": date,
         "price": price,
         "item": item,
+        "category": category
     }
     result = expenses_collection.insert_one(expense)
     expense["_id"] = result.inserted_id
@@ -84,6 +86,7 @@ def edit_expense(expense_id):
     date = request.form["date"]
     price = float(request.form["price"])
     item = request.form["item"]
+    category = request.form["category"]
 
     expenses_collection.update_one(
         {"_id": ObjectId(expense_id)},
@@ -91,11 +94,19 @@ def edit_expense(expense_id):
             "$set": {
                 "date": date,
                 "price": price,
-                "item": item
+                "item": item,
+                "category": category
             }
         }
     )
-    return redirect(url_for("home"))
+    expense = expenses_collection.find_one(
+    {"_id": ObjectId(expense_id)}
+    )
+    # Return only the updated row
+    return render_template(
+    "expense_row.html",
+    expense=expense
+)
 
 
 @app.route("/delete/<expense_id>", methods=["DELETE"])
@@ -104,6 +115,14 @@ def delete_expense(expense_id):
         {"_id": ObjectId(expense_id)}
     )
     return ""
+
+# @app.route("/migrate-categories")
+#def migrate_categories():
+#   expenses_collection.update_many(
+#       {"category": {"$exists": False}},
+#       {"$set": {"category": "Other"}}
+#
+#    return "Old expenses migrated successfully!"
 
 if __name__ == "__main__":
     app.run(debug=True)
