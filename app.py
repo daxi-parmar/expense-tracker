@@ -7,7 +7,16 @@ app.secret_key = "mysecretkey"
 
 @app.route("/")
 def home():
-    expenses = list(expenses_collection.find())
+    category = request.args.get("category")
+ 
+    if category:
+        expenses = list(
+            expenses_collection.find(
+                {"category": {"$eq": category}}
+            )
+        )
+    else:
+        expenses =  list(expenses_collection.find())
     # []
     total = 0
     monthly_total = 0
