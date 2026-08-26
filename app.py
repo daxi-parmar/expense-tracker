@@ -8,7 +8,17 @@ app.secret_key = "mysecretkey"
 @app.route("/")
 def home():
     category = request.args.get("category")
- 
+    search = request.args.get("search")
+
+    query = {}
+
+    if search:
+        query["item"] = {
+            "$regex": search,
+            "$options": "i"
+        }
+    
+     
     if category:
         expenses = list(
             expenses_collection.find(
@@ -16,7 +26,7 @@ def home():
             )
         )
     else:
-        expenses =  list(expenses_collection.find())
+        expenses =  list(expenses_collection.find(query))
     # []
     total = 0
     monthly_total = 0
