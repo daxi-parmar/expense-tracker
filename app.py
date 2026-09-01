@@ -10,6 +10,9 @@ def home():
     category = request.args.get("category")
     search = request.args.get("search")
 
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
+
     query = {}
 
     if search:
@@ -17,16 +20,18 @@ def home():
             "$regex": search,
             "$options": "i"
         }
-    
-     
     if category:
-        expenses = list(
-            expenses_collection.find(
-                {"category": {"$eq": category}}
-            )
-        )
-    else:
-        expenses =  list(expenses_collection.find(query))
+        query["category"] = {
+        "$eq": category
+    } 
+    if start_date and end_date:
+        query["date"] = {
+        "$gte": start_date,
+        "$lte": end_date
+    }
+    
+    expenses =  list(expenses_collection.find(query))
+    
     # []
     total = 0
     monthly_total = 0
@@ -36,9 +41,7 @@ def home():
     for expense in expenses:
         total += expense["price"]
 
-    
         expense_date = datetime.strptime(expense["date"], "%Y-%m-%d")
-
         expense_month = expense_date.month
         expense_year = expense_date.year
 
