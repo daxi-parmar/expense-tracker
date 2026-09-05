@@ -1,31 +1,29 @@
-# expense-tracker
-A simple web app to log daily expenses
+# Expense Tracker
+A full-stack expense tracking web application built with Flask and MongoDB.
 
 ## Features
-- Add expenses
-- Track date
-- Track price
-- Track item
+- Add, edit and delete expenses
+- Categorize expenses
+- Search expenses by item name
+- Filter by category
+- Filter by date range
+- Calculate total and monthly expenses
+- MongoDB-based data storage
 
 ## Tech Stack
 - Python
 - Flask
 - MongoDB
+- PyMongo
 - HTML
-- CSS
+- Tailwind CSS
+- HTMX
 
-# Expense Schema
-Each expense stored in MongoDB will contain:
+## Database Optimization
+MongoDB indexes are used to improve filtering performance for category and date-based queries.
 
-- date (String)
-- item (String)
-- amount (Number)
-
-Example:
-
-```json
-{
-  "date": "23-07-2026",
-  "item": "Pizza",
-  "amount": 350
-}
+## Future Improvements
+- User authentication
+- Multi-user expense management
+- Data visualization
+- Deployment
