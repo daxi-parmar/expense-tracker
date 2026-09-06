@@ -40,11 +40,17 @@ def home():
     current_year = today.year
 
     pipeline = [
+
     {
         "$match": {
-            "date": {
-                "$regex": f"^{current_year}-{current_month:02d}"
-            }
+            "$and": [
+                query,
+                {
+                    "date": {
+                        "$regex": f"^{current_year}-{current_month:02d}"
+                    }
+                }
+            ]
         }
     },
     {
@@ -57,6 +63,7 @@ def home():
 
     result = list(expenses_collection.aggregate(pipeline)) 
     monthly_total = result[0]["total"] if result else 0
+    
     for expense in expenses:
         total += expense["price"]
     total_entries = len(expenses)
