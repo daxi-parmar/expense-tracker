@@ -55,26 +55,18 @@ def home():
     }
     ]
 
-    result = list(expenses_collection.aggregate(pipeline))
-    print(result)
-
+    result = list(expenses_collection.aggregate(pipeline)) 
+    monthly_total = result[0]["total"] if result else 0
     for expense in expenses:
         total += expense["price"]
-
-        expense_date = datetime.strptime(expense["date"], "%Y-%m-%d")
-        expense_month = expense_date.month
-        expense_year = expense_date.year
-
-
-        if expense_month == current_month and expense_year ==current_year:   
-                monthly_total +=expense["price"]
-        
-    total_entries = len(expenses) 
-    return render_template("index.html", 
-                           expenses=expenses,
-                           total =total,
-                           total_entries=total_entries,
-                           monthly_total=monthly_total)
+    total_entries = len(expenses)
+    return render_template(
+        "index.html",
+        expenses=expenses,
+        total=total,
+        total_entries=total_entries,
+        monthly_total=monthly_total
+    )
 
 @app.route("/test-db")
 def test_db():
