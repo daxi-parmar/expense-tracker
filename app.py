@@ -38,6 +38,26 @@ def home():
     today =datetime.now()
     current_month =today.month
     current_year = today.year
+
+    pipeline = [
+    {
+        "$match": {
+            "date": {
+                "$regex": f"^{current_year}-{current_month:02d}"
+            }
+        }
+    },
+    {
+        "$group": {
+            "_id": None,
+            "total": {"$sum": "$price"}
+        }
+    }
+    ]
+
+    result = list(expenses_collection.aggregate(pipeline))
+    print(result)
+
     for expense in expenses:
         total += expense["price"]
 
