@@ -63,6 +63,16 @@ def home():
 
     result = list(expenses_collection.aggregate(pipeline)) 
     monthly_total = result[0]["total"] if result else 0
+    category_pipeline = [
+    {
+        "$group": {
+            "_id": "$category",
+            "total": {"$sum": "$price"}
+        }
+    }
+    ]
+    category_result = list(expenses_collection.aggregate(category_pipeline))
+    print(category_result)
     
     for expense in expenses:
         total += expense["price"]
