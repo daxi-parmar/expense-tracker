@@ -72,17 +72,23 @@ def home():
     }
     ]
     category_result = list(expenses_collection.aggregate(category_pipeline))
-    print(category_result)
+    # print(category_result)
+
+    category_totals = {
+    item["_id"]: item["total"]
+    for item in category_result
+    }
+    print(category_totals)
     
     for expense in expenses:
         total += expense["price"]
     total_entries = len(expenses)
     return render_template(
-        "index.html",
-        expenses=expenses,
-        total=total,
-        total_entries=total_entries,
-        monthly_total=monthly_total
+    "index.html",
+    expenses=expenses,
+    total=total,
+    total_entries=total_entries,
+    monthly_total=monthly_total
     )
 
 @app.route("/test-db")
