@@ -65,6 +65,9 @@ def home():
     monthly_total = result[0]["total"] if result else 0
     category_pipeline = [
     {
+        "$match": query
+    },
+    {
         "$group": {
             "_id": "$category",
             "total": {"$sum": "$price"}
@@ -83,12 +86,13 @@ def home():
     for expense in expenses:
         total += expense["price"]
     total_entries = len(expenses)
-    return render_template(
+    return render_template (
     "index.html",
     expenses=expenses,
     total=total,
     total_entries=total_entries,
-    monthly_total=monthly_total
+    monthly_total=monthly_total,
+    category_totals=category_totals
     )
 
 @app.route("/test-db")
