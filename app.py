@@ -63,12 +63,15 @@ def home():
 
     result = list(expenses_collection.aggregate(pipeline)) 
     monthly_total = result[0]["total"] if result else 0
+
+    monthly_budget = 10000
+    remaining_budget = monthly_budget - monthly_total
     category_pipeline = [
     {
         "$match": query
     },
     {
-        "$group": {
+        "$group": {.\
             "_id": "$category",
             "total": {"$sum": "$price"}
         }
