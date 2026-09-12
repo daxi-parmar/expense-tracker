@@ -33,16 +33,41 @@
                 </p>
             </div>
 
+            <div class="bg-red-100 rounded-2xl shadow-md p-6
+                        transition-all duration-300
+                        hover:shadow-xl hover:-translate-y-1">
+                <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                    💰 Monthly Budget
+                </h3>
+                     <p class="text-3xl font-bold text-blue-600 mt-2">
+                        ₹{{monthly_budget}}
+                    </p>
+            </div>
+
             <div class="bg-green-100 rounded-2xl shadow-md p-6
                         transition-all duration-300
                         hover:shadow-xl hover:-translate-y-1">
                 <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
-                    📅 This Month
+                    📅 spent
                 </h3>
                      <p class="text-3xl font-bold text-blue-600 mt-2">
                         ₹{{monthly_total}}
                     </p>
             </div>
+
+            <div class="bg-yellow-100 rounded-2xl shadow-md p-6
+            transition-all duration-300
+            hover:shadow-xl hover:-translate-y-1">
+                <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+                    💵 Remaining
+                </h3>
+                     <p class="text-3xl font-bold text-blue-600 mt-2">
+                        ₹{{ remaining_budget }}
+                    </p>
+            </div>
+
+           
+
             <div class="bg-purple-100 rounded-2xl shadow-md p-6
                         transition-all duration-300
                         hover:shadow-xl hover:-translate-y-1">
@@ -62,7 +87,7 @@
                 </h3>
                 <p class="text-3xl font-bold text-blue-600 mt-2">
                 {{ category_totals|length }}
-                </p>
+                </p>git
             </div>
 
             
@@ -154,6 +179,22 @@
         </div>
 
         <div class="mb-6">
+        <form method="POST" action="/budget" class="mt-6">
+            <input
+            type="number"
+            name="budget"
+            placeholder="Enter monthly budget"
+            min="0"
+            required
+            class="border rounded-lg px-4 py-2"
+            >
+            <button
+            type="submit"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+                Set Budget
+            </button>
+        </form>
+
         <form method="GET" action="/">
 
         <label for="category-filter"
@@ -167,21 +208,13 @@
                    focus:outline-none focus:ring-2 focus:ring-blue-300">
 
         <option value="" {% if not request.args.get("category") %}selected{% endif %}>All Categories</option>
-
         <option value="Food" {% if request.args.get("category") == "Food" %}selected{% endif %}>🍔 Food</option>
-
         <option value="Travel" {% if request.args.get("category") == "Travel" %}selected{% endif %}>🚗 Travel</option>
- 
         <option value="Bills" {% if request.args.get("category") == "Bills" %}selected{% endif %}>💡 Bills</option>
-
         <option value="Shopping" {% if request.args.get("category") == "Shopping" %}selected{% endif %}>🛍️ Shopping</option>
-
         <option value="Entertainment" {% if request.args.get("category") == "Entertainment" %}selected{% endif %}>🎬 Entertainment</ option>
- 
         <option value="Education" {% if request.args.get("category") == "Education" %}selected{% endif %}>📚 Education</option>
-
         <option value="Health" {% if request.args.get("category") == "Health" %}selected{% endif %}>💊 Health</option>
-
         <option value="Other" {% if request.args.get("category") == "Other" %}selected{% endif %}>📦 Other</option>
         </select>
 

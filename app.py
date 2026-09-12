@@ -13,7 +13,12 @@ def home():
     start_date = request.args.get("start_date")
     end_date = request.args.get("end_date")
 
-    query = {}
+    query = {
+        "type": {
+        "$ne": "monthly_budget"
+    }
+
+    }
 
     if search:
         query["item"] = {
@@ -63,15 +68,18 @@ def home():
 
     result = list(expenses_collection.aggregate(pipeline)) 
     monthly_total = result[0]["total"] if result else 0
-
-    monthly_budget = 10000
+    budget_result = expenses_collection.find_one(
+    {"type": "monthly_budget"}
+    )
+    monthly_budget = budget_result["budget"] if budget_result else 0
     remaining_budget = monthly_budget - monthly_total
+   
     category_pipeline = [
     {
         "$match": query
     },
     {
-        "$group": {.\
+        "$group": {
             "_id": "$category",
             "total": {"$sum": "$price"}
         }
@@ -84,7 +92,7 @@ def home():
     item["_id"]: item["total"]
     for item in category_result
     }
-    print(category_totals)
+    #print(category_totals)
     
     for expense in expenses:
         total += expense["price"]
@@ -95,8 +103,19 @@ def home():
     total=total,
     total_entries=total_entries,
     monthly_total=monthly_total,
-    category_totals=category_totals
+    category_totals=category_totals,
+    monthly_budget=monthly_budget,
+    remaining_budget=remaining_budget
     )
+@app.route("/budget", methods=["POST"])
+def set_budget():
+    budget = float(request.form["budget"])
+    expenses_collection.update_one(
+        {"type": "monthly_budget"},
+        {"$set": {"budget": budget}},
+        upsert=True
+    )
+    return redirect("/")
 
 @app.route("/test-db")
 def test_db():
@@ -144,9 +163,6 @@ def edit_expense(expense_id):
             "edit_row.html",
             expense=expense
         )
-
-    # POST - Save the edited expense
-
     date = request.form["date"]
     price = float(request.form["price"])
     item = request.form["item"]
@@ -171,7 +187,6 @@ def edit_expense(expense_id):
     "expense_row.html",
     expense=expense
 )
-
 
 @app.route("/delete/<expense_id>", methods=["DELETE"])
 def delete_expense(expense_id):
