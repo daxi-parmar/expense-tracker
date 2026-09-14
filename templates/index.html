@@ -6,7 +6,6 @@
     
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <title> Expense Tracker | Personal Finance Manager </title>
     </head>
@@ -41,7 +40,7 @@
                     💰 Monthly Budget
                 </h3>
                      <p class="text-3xl font-bold text-blue-600 mt-2">
-                        ₹{{monthly_budget}}
+                        ₹{{"{:,.2f}".format(monthly_budget) }}
                     </p>
             </div>
 
@@ -52,7 +51,7 @@
                     📅 spent
                 </h3>
                      <p class="text-3xl font-bold text-blue-600 mt-2">
-                        ₹{{monthly_total}}
+                        ₹{{"{:,.2f}".format(monthly_total) }}
                     </p>
             </div>
 
@@ -63,7 +62,7 @@
                     💵 Remaining
                 </h3>
                      <p class="text-3xl font-bold text-blue-600 mt-2">
-                        ₹{{ remaining_budget }}
+                        ₹{{ "{:,.2f}".format(remaining_budget) }}
                     </p>
             </div>
 
@@ -374,5 +373,43 @@
         }
         });
         </script> 
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script id="chart-data" type="application/json">
+        {
+            "categories": {{ category_totals | tojson }},
+            "dates": {{ expenses | map(attribute='date') | list | tojson }},
+            "prices": {{ expenses | map(attribute='price') | list | tojson }}
+        }
+        </script>
+
+        <script>
+        const chartData = JSON.parse(
+            document.getElementById("chart-data").textContent
+        );
+
+        new Chart(document.getElementById("categoryChart"), {
+        type: "pie",
+        data: {
+            labels: Object.keys(chartData.categories),
+            datasets: [{
+                data: Object.values(chartData.categories)
+            }]
+        }
+        });
+
+        new Chart(document.getElementById("expenseChart"), {
+        type: "line",
+        data: {
+            labels: chartData.dates,
+            datasets: [{
+                label: "Expense",
+                data: chartData.prices,
+                tension: 0.3
+            }]
+        }
+        });
+        </script>
     </body>
 </html>
