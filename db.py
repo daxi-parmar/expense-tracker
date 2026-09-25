@@ -17,6 +17,7 @@ client = MongoClient(
 
 db = client["expense_tracker"]
 expenses_collection = db["expenses"]
+users_collection = db["users"]
 
 expenses_collection.create_index([
     ("category", 1),
