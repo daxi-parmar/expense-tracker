@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from db import client, expenses_collection
 from datetime import datetime
 from bson.objectid import ObjectId
@@ -195,6 +196,31 @@ def delete_expense(expense_id):
     )
     return ""
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        existing_user = users_collection.find_one({
+            "username": username
+        })
+
+        if existing_user:
+            flash("Username already exists.")
+            return redirect(url_for("register"))
+
+        hashed_password = generate_password_hash(password)
+
+        users_collection.insert_one({
+            "username": username,
+            "password": hashed_password
+        })
+
+        flash("Registration successful.")
+        return redirect(url_for("register"))
+
+    return render_template("register.html")
 # @app.route("/migrate-categories")
 #def migrate_categories():
 #   expenses_collection.update_many(
