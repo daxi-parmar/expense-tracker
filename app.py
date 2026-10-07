@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from db import client, expenses_collection
+from db import client, expenses_collection, users_collection
 from datetime import datetime
 from bson.objectid import ObjectId
 app = Flask(__name__)
@@ -201,6 +201,10 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+
+        if len(username) < 3:
+            flash("Username must be at least 3 characters.")
+            return redirect(url_for("register"))
 
         existing_user = users_collection.find_one({
             "username": username
