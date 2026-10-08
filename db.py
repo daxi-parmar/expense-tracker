@@ -23,3 +23,9 @@ expenses_collection.create_index([
     ("category", 1),
     ("date", 1)
 ])
+
+users_collection.create_index(
+    [("email", 1)],
+    unique=True,
+    sparse=True
+)
