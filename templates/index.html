@@ -10,7 +10,7 @@
         <title> Expense Tracker | Personal Finance Manager </title>
     </head>
     <body class="bg-gray-100">
-        <div class= "max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+        <div class= "max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-`10"> 
         
         <div class="header">
             <h1 class="text-4xl font-bold text-blue-600 text-center mb-2">
@@ -20,7 +20,8 @@
                 Track smarter. Spend wiser.
             </p>
         </div>
-    
+
+        <div id="dashboard">
         <div class="dashboard grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
             <div class="bg-blue-100 rounded-2xl shadow-md p-4
                         transition-all duration-300 
@@ -105,8 +106,9 @@
             <canvas id="expenseChart"></canvas>
         </div>
         </div>
+        </div>
 
-        <div class ="flash messeges">
+        <div class ="flash messages">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
@@ -352,9 +354,9 @@
                 Start by adding your first expense above.
             </p>
         </div>
-        </div>
+        </div>  
         {% endif %}
-        </div>
+        </div> 
 
         <script>
         document.body.addEventListener("htmx:beforeRequest", function(event) {

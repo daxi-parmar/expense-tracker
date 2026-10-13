@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from db import client, expenses_collection, users_collection
 from datetime import datetime
 from bson.objectid import ObjectId
+
 app = Flask(__name__)
 app.secret_key = "mysecretkey"
 
@@ -223,6 +224,25 @@ def register():
         return redirect(url_for("register"))
 
     return render_template("register.html")    
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form["email"].strip().lower()
+        password = request.form["password"]
+
+        user = users_collection.find_one({"email": email})
+
+        if user and check_password_hash(user["password"], password):
+            flash("Login successful.")
+            return redirect(url_for("home"))
+
+        flash("Invalid email or password.")
+        return redirect(url_for("login"))
+
+    return render_template("login.html")
+
 # @app.route("/migrate-categories")
 #def migrate_categories():
 #   expenses_collection.update_many(
