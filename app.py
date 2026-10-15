@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+import os
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import client, expenses_collection, users_collection
 from datetime import datetime
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
-app.secret_key = "mysecretkey"
+app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 @app.route("/")
 def home():
