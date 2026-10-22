@@ -1,4 +1,5 @@
 import os
+from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import client, expenses_collection, users_collection
@@ -8,7 +9,16 @@ from bson.objectid import ObjectId
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
+def login_required(view):
+    @wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if "user_id" not in session:
+            return redirect(url_for("login"))
+        return view(*args, **kwargs)
+    return wrapped_view
+
 @app.route("/")
+@login_required
 def home():
     category = request.args.get("category")
     search = request.args.get("search")
@@ -236,6 +246,7 @@ def login():
         user = users_collection.find_one({"email": email})
 
         if user and check_password_hash(user["password"], password):
+            session["user_id"] = str(user["_id"])
             flash("Login successful.")
             return redirect(url_for("home"))
 
