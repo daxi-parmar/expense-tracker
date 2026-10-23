@@ -121,6 +121,7 @@ def home():
     remaining_budget=remaining_budget
     )
 @app.route("/budget", methods=["POST"])
+@login_required
 def set_budget():
     budget = float(request.form["budget"])
     expenses_collection.update_one(
@@ -140,6 +141,7 @@ def test_db():
         return f"<pre>{traceback.format_exc()}</pre>"
 
 @app.route("/add", methods=["POST"])
+@login_required
 def add_expense():
     date = request.form["date"]
     price = float(request.form["price"])   
@@ -167,6 +169,7 @@ def add_expense():
     return render_template("expense_row.html", expense=expense)
 
 @app.route("/edit/<expense_id>", methods =["GET", "POST"])
+@login_required
 def edit_expense(expense_id):
     if request.method == "GET":
         expense = expenses_collection.find_one(
@@ -202,6 +205,7 @@ def edit_expense(expense_id):
 )
 
 @app.route("/delete/<expense_id>", methods=["DELETE"])
+@login_required
 def delete_expense(expense_id):
     expenses_collection.delete_one(
         {"_id": ObjectId(expense_id)}
