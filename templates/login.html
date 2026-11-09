@@ -3,21 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login | Expense Tracker</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Login to Expense Tracker</h1>
 
-    <form method="POST">
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-    </form>
+<body class="min-h-screen bg-slate-950 flex items-center justify-center p-5">
 
-    {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endwith %}
+    <div class="w-full max-w-5xl grid md:grid-cols-2 bg-white rounded-3xl overflow-hidden shadow-2xl">
+
+        <!-- Left Section -->
+        <div class="hidden md:flex flex-col justify-between bg-gradient-to-br from-emerald-600 to-teal-800 p-12 text-white">
+
+            <div>
+                <div class="flex items-center gap-3 mb-16">
+                    <div class="bg-white/20 p-3 rounded-xl">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor"
+                             viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2
+                                  3 .895 3 2-1.343 2-3 2m0-8V6m0 2v8m0 0v2m0-2
+                                  c-1.657 0-3-.895-3-2m6 0c0 1.105-1.343 2-3 2"/>
+                        </svg>
+                    </div>
+
+                    <span class="text-xl font-bold tracking-wide">
+                        Expense Tracker
+                    </span>
+                </div>
+
+                <h1 class="text-4xl font-bold leading-tight mb-5">
+                    Take control of your money.
+                </h1>
+
+                <p class="text-emerald-50 text-lg leading-relaxed">
+                    Track your spending, understand your habits,
+                    and make smarter financial decisions.
+                </p>
+            </div>
+
+            <div class="border-t border-white/20 pt-6">
+                <p class="text-sm text-emerald-100">
+                    Your money. Your goals. Your control.
+                </p>
+            </div>
+        </div>
+
+
+        <!-- Right Section: Login Form -->
+        <div class="p-8 sm:p-12 md:p-14 flex flex-col justify-center">
+
+            <div class="mb-9">
+
+                <div class="md:hidden flex items-center gap-2 mb-8 text-emerald-700">
+                    <span class="font-bold text-xl">Expense Tracker</span>
+                </div>
+
+                <p class="text-sm font-semibold text-emerald-600 mb-3">
+                    WELCOME BACK
+                </p>
+
+                <h2 class="text-3xl font-bold text-slate-900 mb-3">
+                    Sign in to your account
+                </h2>
+
+                <p class="text-slate-500">
+                    Enter your details to access your dashboard.
+                </p>
+
+            </div>
+
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="mb-5 rounded-xl bg-emerald-50 border border-emerald-200
+                                    px-4 py-3 text-sm text-emerald-800">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+
+            <!-- Login Form -->
+            <form method="POST" class="space-y-6">
+
+                <div>
+                    <label for="email"
+                           class="block text-sm font-semibold text-slate-700 mb-2">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                        class="w-full px-4 py-3.5 rounded-xl border border-slate-200
+                               bg-slate-50 text-slate-900 outline-none
+                               focus:border-emerald-500 focus:ring-4
+                               focus:ring-emerald-500/10 transition">
+                </div>
+
+
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <label for="password"
+                               class="text-sm font-semibold text-slate-700">
+                            Password
+                        </label>
+                    </div>
+
+                    <div class="relative">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                            class="w-full px-4 py-3.5 pr-16 rounded-xl border
+                                   border-slate-200 bg-slate-50 text-slate-900
+                                   outline-none focus:border-emerald-500
+                                   focus:ring-4 focus:ring-emerald-500/10 transition">
+
+                        <button
+                            type="button"
+                            onclick="togglePassword()"
+                            class="absolute right-4 top-1/2 -translate-y-1/2
+                                   text-sm font-medium text-emerald-700
+                                   hover:text-emerald-900">
+
+                            Show
+                        </button>
+
+                    </div>
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="w-full bg-emerald-600 hover:bg-emerald-700
+                           text-white font-semibold py-3.5 rounded-xl
+                           shadow-lg shadow-emerald-600/20
+                           transition duration-200 hover:-translate-y-0.5">
+
+                    Sign In
+                </button>
+
+            </form>
+
+
+            <div class="mt-8 text-center">
+
+                <p class="text-sm text-slate-500">
+                    Don't have an account?
+
+                    <a href="{{ url_for('register') }}"
+                       class="font-semibold text-emerald-600 hover:text-emerald-700">
+                        Create an account
+                    </a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById("password");
+            const button = event.currentTarget;
+
+            if (password.type === "password") {
+                password.type = "text";
+                button.textContent = "Hide";
+            } else {
+                password.type = "password";
+                button.textContent = "Show";
+            }
+        }
+    </script>
+
 </body>
 </html>
